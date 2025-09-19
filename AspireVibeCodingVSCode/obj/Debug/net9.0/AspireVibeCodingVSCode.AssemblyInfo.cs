@@ -25,7 +25,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AspireVibeCodingVSCode")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+edf1068d83e2d5f315de67271215c44d7766f98c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0895b1ebba6c8e72182668d1f076437b0f9de8f2")]
 [assembly: System.Reflection.AssemblyProductAttribute("AspireVibeCodingVSCode")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AspireVibeCodingVSCode")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
