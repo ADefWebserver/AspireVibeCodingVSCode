@@ -59,10 +59,6 @@
               "target": "Package",
               "version": "[9.0.9, )"
             },
-            "Microsoft.Extensions.AI.OpenAI": {
-              "target": "Package",
-              "version": "[9.0.1-preview.1.24570.5, )"
-            },
             "Microsoft.NET.ILLink.Tasks": {
               "suppressParent": "All",
               "target": "Package",
@@ -74,10 +70,6 @@
               "target": "Package",
               "version": "[9.0.9, )",
               "autoReferenced": true
-            },
-            "OpenAI": {
-              "target": "Package",
-              "version": "[2.1.0, )"
             },
             "Radzen.Blazor": {
               "target": "Package",

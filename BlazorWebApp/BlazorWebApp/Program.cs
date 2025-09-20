@@ -1,5 +1,6 @@
 using BlazorWebApp.Client.Pages;
 using BlazorWebApp.Components;
+using BlazorWebApp.Client.Models;
 using Radzen;
 
 namespace BlazorWebApp;
@@ -13,6 +14,13 @@ public class Program
         // Add services to the container.
         builder.Services.AddRazorComponents()
             .AddInteractiveWebAssemblyComponents();
+
+        // Add API controllers
+        builder.Services.AddControllers();
+
+        // Configure OpenAI settings (server-side only)
+        builder.Services.Configure<OpenAIConfiguration>(
+            builder.Configuration.GetSection("OpenAI"));
 
         // Add Radzen components and services
         builder.Services.AddRadzenComponents();
@@ -35,6 +43,9 @@ public class Program
         app.UseHttpsRedirection();
 
         app.UseAntiforgery();
+
+        // Map API controllers
+        app.MapControllers();
 
         app.MapStaticAssets();
         app.MapRazorComponents<App>()

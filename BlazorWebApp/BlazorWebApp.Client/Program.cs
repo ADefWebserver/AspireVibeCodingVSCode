@@ -21,15 +21,12 @@ class Program
         // Add Blazored LocalStorage
         builder.Services.AddBlazoredLocalStorage();
 
-        // Configure OpenAI settings
-        builder.Services.Configure<OpenAIConfiguration>(options =>
-        {
-            builder.Configuration.GetSection("OpenAI").Bind(options);
-        });
+        // Add HttpClient for API calls
+        builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
-        // Register application services
+        // Register application services (using secure server-based implementation)
         builder.Services.AddScoped<IPdfProcessingService, PdfProcessingService>();
-        builder.Services.AddScoped<IEmbeddingService, OpenAIEmbeddingService>();
+        builder.Services.AddScoped<IEmbeddingService, ServerEmbeddingService>();
         builder.Services.AddScoped<IKnowledgebaseStorageService, KnowledgebaseStorageService>();
 
         await builder.Build().RunAsync();
