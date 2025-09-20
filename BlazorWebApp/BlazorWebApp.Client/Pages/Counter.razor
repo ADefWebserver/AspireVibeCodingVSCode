@@ -2,11 +2,24 @@
 
 <PageTitle>Counter</PageTitle>
 
-<h1>Counter</h1>
-
-<p role="status">Current count: @currentCount</p>
-
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+<RadzenCard class="rz-my-12 rz-mx-auto" style="max-width: 420px">
+    <RadzenStack>
+        <RadzenText TextStyle="TextStyle.H4" TagName="TagName.H1" class="rz-color-primary">Counter</RadzenText>
+        
+        <RadzenAlert AlertStyle="AlertStyle.Info" class="rz-my-4">
+            <RadzenText TextStyle="TextStyle.Body1" TagName="TagName.P">
+                Current count: <strong>@currentCount</strong>
+            </RadzenText>
+        </RadzenAlert>
+        
+        <RadzenButton ButtonStyle="ButtonStyle.Primary" 
+                      Click="@IncrementCount" 
+                      Text="Click me" 
+                      Icon="add" 
+                      Size="ButtonSize.Large" 
+                      class="rz-mt-4" />
+    </RadzenStack>
+</RadzenCard>
 
 @code {
     private int currentCount = 0;
