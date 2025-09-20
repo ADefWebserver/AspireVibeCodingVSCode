@@ -1,5 +1,6 @@
 using BlazorWebApp.Client.Pages;
 using BlazorWebApp.Components;
+using Radzen;
 
 namespace BlazorWebApp;
 
@@ -12,6 +13,10 @@ public class Program
         // Add services to the container.
         builder.Services.AddRazorComponents()
             .AddInteractiveWebAssemblyComponents();
+
+        // Add Radzen components and services
+        builder.Services.AddRadzenComponents();
+        builder.Services.AddScoped<NotificationService>();
 
         var app = builder.Build();
 

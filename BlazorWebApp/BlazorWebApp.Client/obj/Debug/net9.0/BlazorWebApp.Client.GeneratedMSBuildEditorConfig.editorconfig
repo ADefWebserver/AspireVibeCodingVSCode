@@ -26,12 +26,20 @@ build_property._RazorSourceGeneratorDebug =
 build_property.EffectiveAnalysisLevelStyle = 9.0
 build_property.EnableCodeStyleSeverity = 
 
+[C:/Users/webma/Source/Repos/AspireVibeCodingVSCode/BlazorWebApp/BlazorWebApp.Client/Components/KnowledgebaseUpload.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xLbm93bGVkZ2ViYXNlVXBsb2FkLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/webma/Source/Repos/AspireVibeCodingVSCode/BlazorWebApp/BlazorWebApp.Client/Pages/Counter.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ291bnRlci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/webma/Source/Repos/AspireVibeCodingVSCode/BlazorWebApp/BlazorWebApp.Client/Pages/Home.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSG9tZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/webma/Source/Repos/AspireVibeCodingVSCode/BlazorWebApp/BlazorWebApp.Client/Pages/Knowledgebase.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcS25vd2xlZGdlYmFzZS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/webma/Source/Repos/AspireVibeCodingVSCode/BlazorWebApp/BlazorWebApp.Client/Pages/Weather.razor]

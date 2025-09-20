@@ -1,0 +1,298 @@
+@using BlazorWebApp.Client.Models
+@using BlazorWebApp.Client.Services
+@using Microsoft.AspNetCore.Components.Forms
+@using Radzen
+@using Radzen.Blazor
+@inject IPdfProcessingService PdfProcessingService
+@inject IEmbeddingService EmbeddingService
+@inject IKnowledgebaseStorageService StorageService
+@inject NotificationService NotificationService
+
+<div class="rz-p-4">
+    <RadzenCard class="rz-shadow-2">
+        <RadzenStack>
+            <RadzenText TextStyle="TextStyle.H4" class="rz-mb-3">Upload Knowledgebase Content</RadzenText>
+            
+            <RadzenText TextStyle="TextStyle.Body1" class="rz-mb-3">
+                Select a PDF file to upload and process into your knowledgebase. The file will be converted to text, 
+                split into chunks, and embeddings will be generated for enhanced search capabilities.
+            </RadzenText>
+
+            <InputFile OnChange="@OnFileSelected" 
+                      accept="application/pdf" 
+                      class="rz-mb-3 form-control" />
+
+            <RadzenStack Orientation="Orientation.Horizontal" Gap="0.5rem">
+                <RadzenButton Text="Upload Knowledgebase Content" 
+                            Icon="upload_file" 
+                            ButtonStyle="ButtonStyle.Primary"
+                            Disabled="@(selectedFile == null || isProcessing)"
+                            Click="@ProcessFileAsync" />
+                
+                <RadzenButton Text="Clear Knowledgebase" 
+                            Icon="delete" 
+                            ButtonStyle="ButtonStyle.Danger"
+                            Variant="Variant.Outlined"
+                            Disabled="@isProcessing"
+                            Click="@ClearKnowledgebaseAsync" />
+            </RadzenStack>
+
+            @if (isProcessing)
+            {
+                <RadzenProgressBar Value="@progressValue" Max="100" class="rz-mt-3" />
+                <RadzenText TextStyle="TextStyle.Caption" class="rz-mt-1">@progressMessage</RadzenText>
+            }
+
+            @if (knowledgebaseItems.Any())
+            {
+                <RadzenText TextStyle="TextStyle.H6" class="rz-mt-4 rz-mb-2">Knowledgebase Contents</RadzenText>
+                
+                <RadzenDataGrid AllowColumnResize="true" 
+                              AllowSorting="true" 
+                              PageSize="5" 
+                              AllowPaging="true" 
+                              PagerHorizontalAlign="HorizontalAlign.Left" 
+                              ShowPagingSummary="true"
+                              Data="@knowledgebaseItems" 
+                              TItem="KnowledgebaseItem" 
+                              class="rz-mt-2">
+                    <Columns>
+                        <RadzenDataGridColumn TItem="KnowledgebaseItem" Property="FileName" Title="File Name" Width="200px" />
+                        <RadzenDataGridColumn TItem="KnowledgebaseItem" Property="CreatedAt" Title="Upload Date" FormatString="{0:yyyy-MM-dd HH:mm}" Width="150px" />
+                        <RadzenDataGridColumn TItem="KnowledgebaseItem" Title="Text Preview" Width="300px">
+                            <Template Context="item">
+                                <RadzenText TextStyle="TextStyle.Caption">
+                                    @(item.OriginalText.Length > 100 ? item.OriginalText.Substring(0, 100) + "..." : item.OriginalText)
+                                </RadzenText>
+                            </Template>
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="KnowledgebaseItem" Title="Chunks" Width="80px">
+                            <Template Context="item">
+                                <RadzenBadge BadgeStyle="BadgeStyle.Info" Text="@item.Chunks.Count.ToString()" />
+                            </Template>
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="KnowledgebaseItem" Title="Actions" Width="100px">
+                            <Template Context="item">
+                                <RadzenButton Icon="delete" 
+                                            ButtonStyle="ButtonStyle.Danger" 
+                                            Variant="Variant.Flat" 
+                                            Size="ButtonSize.Small"
+                                            Click="@(() => RemoveItemAsync(item.Id))" 
+                                            @onclick:stopPropagation="true" />
+                            </Template>
+                        </RadzenDataGridColumn>
+                    </Columns>
+                </RadzenDataGrid>
+            }
+        </RadzenStack>
+    </RadzenCard>
+</div>
+
+@code {
+    private IBrowserFile? selectedFile;
+    private bool isProcessing = false;
+    private double progressValue = 0;
+    private string progressMessage = "";
+    private List<KnowledgebaseItem> knowledgebaseItems = new();
+    private const int maxFileSize = 10 * 1024 * 1024; // 10MB
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadKnowledgebaseAsync();
+    }
+
+    private void OnFileSelected(InputFileChangeEventArgs e)
+    {
+        selectedFile = e.GetMultipleFiles().FirstOrDefault();
+        StateHasChanged();
+    }
+
+    private async Task LoadKnowledgebaseAsync()
+    {
+        try
+        {
+            var knowledgebase = await StorageService.LoadKnowledgebaseAsync();
+            knowledgebaseItems = knowledgebase.Items;
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage
+            {
+                Severity = NotificationSeverity.Error,
+                Summary = "Error",
+                Detail = $"Failed to load knowledgebase: {ex.Message}",
+                Duration = 5000
+            });
+        }
+    }
+
+    private async Task ProcessFileAsync()
+    {
+        if (selectedFile == null)
+            return;
+
+        isProcessing = true;
+        progressValue = 0;
+        progressMessage = "Preparing to process file...";
+        StateHasChanged();
+
+        try
+        {
+            // Read file bytes
+            progressMessage = "Reading PDF file...";
+            progressValue = 10;
+            StateHasChanged();
+
+            var buffer = new byte[selectedFile.Size];
+            using var stream = selectedFile.OpenReadStream(maxFileSize);
+            await stream.ReadAsync(buffer);
+
+            // Extract text from PDF
+            progressMessage = "Extracting text from PDF...";
+            progressValue = 30;
+            StateHasChanged();
+
+            var extractedText = await PdfProcessingService.ExtractTextFromPdfAsync(buffer);
+
+            if (string.IsNullOrWhiteSpace(extractedText))
+            {
+                throw new InvalidOperationException("No text could be extracted from the PDF file.");
+            }
+
+            // Split into chunks
+            progressMessage = "Splitting text into chunks...";
+            progressValue = 50;
+            StateHasChanged();
+
+            var chunks = PdfProcessingService.SplitIntoChunks(extractedText);
+
+            // Generate embeddings for chunks
+            progressMessage = "Generating embeddings for chunks...";
+            progressValue = 70;
+            StateHasChanged();
+
+            var chunkTexts = chunks.Select(c => c.Text).ToList();
+            var chunkEmbeddings = await EmbeddingService.GenerateEmbeddingsAsync(chunkTexts);
+
+            // Generate embedding for original text
+            progressMessage = "Generating embedding for original text...";
+            progressValue = 85;
+            StateHasChanged();
+
+            var originalTextEmbedding = await EmbeddingService.GenerateEmbeddingAsync(extractedText);
+
+            // Update chunks with embeddings
+            for (int i = 0; i < chunks.Count && i < chunkEmbeddings.Count; i++)
+            {
+                chunks[i].Embedding = chunkEmbeddings[i];
+            }
+
+            // Create knowledgebase item
+            var item = new KnowledgebaseItem
+            {
+                FileName = selectedFile.Name,
+                OriginalText = extractedText,
+                OriginalTextEmbedding = originalTextEmbedding,
+                Chunks = chunks
+            };
+
+            // Save to storage
+            progressMessage = "Saving to knowledgebase...";
+            progressValue = 95;
+            StateHasChanged();
+
+            await StorageService.AddKnowledgebaseItemAsync(item);
+
+            // Reload data
+            await LoadKnowledgebaseAsync();
+
+            progressMessage = "Complete!";
+            progressValue = 100;
+            StateHasChanged();
+
+            NotificationService.Notify(new NotificationMessage
+            {
+                Severity = NotificationSeverity.Success,
+                Summary = "Success",
+                Detail = $"Successfully processed '{selectedFile.Name}' and added {chunks.Count} chunks to knowledgebase.",
+                Duration = 5000
+            });
+
+            // Reset
+            selectedFile = null;
+        }
+        catch (Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage
+            {
+                Severity = NotificationSeverity.Error,
+                Summary = "Processing Error",
+                Detail = $"Failed to process file: {ex.Message}",
+                Duration = 8000
+            });
+        }
+        finally
+        {
+            isProcessing = false;
+            progressValue = 0;
+            progressMessage = "";
+            StateHasChanged();
+        }
+    }
+
+    private async Task RemoveItemAsync(string itemId)
+    {
+        try
+        {
+            var success = await StorageService.RemoveKnowledgebaseItemAsync(itemId);
+            if (success)
+            {
+                await LoadKnowledgebaseAsync();
+                NotificationService.Notify(new NotificationMessage
+                {
+                    Severity = NotificationSeverity.Success,
+                    Summary = "Removed",
+                    Detail = "Item removed from knowledgebase.",
+                    Duration = 3000
+                });
+            }
+        }
+        catch (Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage
+            {
+                Severity = NotificationSeverity.Error,
+                Summary = "Error",
+                Detail = $"Failed to remove item: {ex.Message}",
+                Duration = 5000
+            });
+        }
+    }
+
+    private async Task ClearKnowledgebaseAsync()
+    {
+        try
+        {
+            await StorageService.ClearKnowledgebaseAsync();
+            await LoadKnowledgebaseAsync();
+            NotificationService.Notify(new NotificationMessage
+            {
+                Severity = NotificationSeverity.Success,
+                Summary = "Cleared",
+                Detail = "Knowledgebase has been cleared.",
+                Duration = 3000
+            });
+        }
+        catch (Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage
+            {
+                Severity = NotificationSeverity.Error,
+                Summary = "Error",
+                Detail = $"Failed to clear knowledgebase: {ex.Message}",
+                Duration = 5000
+            });
+        }
+    }
+}

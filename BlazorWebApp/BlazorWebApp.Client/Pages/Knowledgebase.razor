@@ -1,0 +1,15 @@
+@page "/knowledgebase"
+@rendermode InteractiveWebAssembly
+
+<PageTitle>Knowledgebase Management</PageTitle>
+
+<RadzenStack Gap="1rem">
+    <RadzenText TextStyle="TextStyle.H2" TagName="TagName.H1">Knowledgebase Management</RadzenText>
+    
+    <RadzenText TextStyle="TextStyle.Body1">
+        Upload PDF documents to build your AI knowledgebase. Files will be processed to extract text, 
+        split into searchable chunks, and generate embeddings for enhanced semantic search capabilities.
+    </RadzenText>
+
+    <KnowledgebaseUpload />
+</RadzenStack>

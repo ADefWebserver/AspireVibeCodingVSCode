@@ -51,9 +51,17 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "dependencies": {
+            "Blazored.LocalStorage": {
+              "target": "Package",
+              "version": "[4.5.0, )"
+            },
             "Microsoft.AspNetCore.Components.WebAssembly": {
               "target": "Package",
               "version": "[9.0.9, )"
+            },
+            "Microsoft.Extensions.AI.OpenAI": {
+              "target": "Package",
+              "version": "[9.0.1-preview.1.24570.5, )"
             },
             "Microsoft.NET.ILLink.Tasks": {
               "suppressParent": "All",
@@ -67,9 +75,21 @@
               "version": "[9.0.9, )",
               "autoReferenced": true
             },
+            "OpenAI": {
+              "target": "Package",
+              "version": "[2.1.0, )"
+            },
             "Radzen.Blazor": {
               "target": "Package",
               "version": "[5.6.6, )"
+            },
+            "System.Text.Json": {
+              "target": "Package",
+              "version": "[9.0.0, )"
+            },
+            "iText7": {
+              "target": "Package",
+              "version": "[8.0.5, )"
             }
           },
           "imports": [
