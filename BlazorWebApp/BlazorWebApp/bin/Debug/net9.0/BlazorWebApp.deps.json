@@ -9,9 +9,12 @@
       "BlazorWebApp/1.0.0": {
         "dependencies": {
           "BlazorWebApp.Client": "1.0.0",
+          "Blazored.LocalStorage": "4.5.0",
           "Microsoft.AspNetCore.Components.WebAssembly.Server": "9.0.9",
           "Microsoft.Extensions.AI.OpenAI": "9.0.1-preview.1.24570.5",
-          "OpenAI": "2.1.0"
+          "OpenAI": "2.1.0",
+          "Radzen.Blazor": "5.6.6",
+          "itext7": "8.0.5"
         },
         "runtime": {
           "BlazorWebApp.dll": {}

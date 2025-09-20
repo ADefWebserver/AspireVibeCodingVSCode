@@ -1,7 +1,247 @@
 ﻿@page "/"
+@using BlazorWebApp.Client.Models
+@using BlazorWebApp.Client.Services
+@using Radzen
+@using Radzen.Blazor
 
-<PageTitle>Home</PageTitle>
+<PageTitle>RFP Question & Answer Processing</PageTitle>
 
-<h1>Hello, world!</h1>
+<div class="container-fluid">
+    <RadzenCard Class="rz-my-4">
+        <RadzenText TextStyle="TextStyle.H3" TagName="TagName.H1">
+            <RadzenIcon Icon="description" Class="rz-me-2" />
+            RFP Question & Answer Processing
+        </RadzenText>
+        <RadzenText TextStyle="TextStyle.Body1" Class="rz-mt-3">
+            Upload an RFP PDF document to automatically extract questions and generate answers using your knowledgebase.
+        </RadzenText>
+    </RadzenCard>
 
-Welcome to your new app.
+    @if (processingResult == null)
+    {
+        <!-- Upload Section -->
+        <RadzenCard Class="rz-my-4">
+            <RadzenText TextStyle="TextStyle.H5" Class="rz-mb-3">
+                <RadzenIcon Icon="cloud_upload" Class="rz-me-2" />
+                Upload RFP Document
+            </RadzenText>
+            
+            <RadzenRow Gap="1rem">
+                <RadzenColumn Size="12" SizeMD="8">
+                    <InputFile OnChange="@OnFileSelected" 
+                              accept="application/pdf" 
+                              class="form-control" />
+                    <RadzenText TextStyle="TextStyle.Caption" Class="rz-mt-2">
+                        Select a PDF file (max 50MB)
+                    </RadzenText>
+                </RadzenColumn>
+                <RadzenColumn Size="12" SizeMD="4">
+                    <RadzenButton ButtonType="ButtonType.Button" 
+                                Icon="upload_file" 
+                                Text="Process RFP" 
+                                Click="ProcessRfp" 
+                                Disabled="@(selectedFile == null || isProcessing)"
+                                BusyText="Processing..."
+                                IsBusy="@isProcessing"
+                                ButtonStyle="ButtonStyle.Primary"
+                                Size="ButtonSize.Large"
+                                Class="w-100" />
+                </RadzenColumn>
+            </RadzenRow>
+        </RadzenCard>
+    }
+
+    @if (isProcessing)
+    {
+        <!-- Processing Status Section -->
+        <RadzenCard Class="rz-my-4">
+            <RadzenText TextStyle="TextStyle.H5" Class="rz-mb-3">
+                <RadzenIcon Icon="autorenew" Class="rz-me-2 rz-spin" />
+                Processing Status
+            </RadzenText>
+            
+            <RadzenText TextStyle="TextStyle.Body1" Class="rz-mb-3">
+                @currentStatusMessage
+            </RadzenText>
+            <RadzenProgressBar Value="@currentProgress" 
+                             ShowValue="true" 
+                             Unit="%" 
+                             Class="rz-mb-3" />
+            
+            <!-- Processing Steps -->
+            <RadzenStack Orientation="Orientation.Vertical" Gap="0.5rem">
+                @foreach (var step in processingSteps)
+                {
+                    <RadzenRow AlignItems="AlignItems.Center" Gap="0.5rem">
+                        <RadzenColumn Size="1">
+                            @if (step.IsCompleted)
+                            {
+                                <RadzenIcon Icon="check_circle" Style="color: green;" />
+                            }
+                            else if (step.IsCurrentStep)
+                            {
+                                <RadzenIcon Icon="hourglass_empty" Style="color: orange;" />
+                            }
+                            else if (step.HasError)
+                            {
+                                <RadzenIcon Icon="error" Style="color: red;" />
+                            }
+                            else
+                            {
+                                <RadzenIcon Icon="radio_button_unchecked" Style="color: gray;" />
+                            }
+                        </RadzenColumn>
+                        <RadzenColumn>
+                            <RadzenText TextStyle="@(step.IsCompleted ? TextStyle.Body1 : TextStyle.Body2)" 
+                                      Class="@(step.IsCurrentStep ? "rz-color-primary" : "")">
+                                @step.StepName
+                            </RadzenText>
+                            @if (!string.IsNullOrEmpty(step.Description))
+                            {
+                                <RadzenText TextStyle="TextStyle.Caption" Class="rz-mt-1">
+                                    @step.Description
+                                </RadzenText>
+                            }
+                            @if (step.HasError)
+                            {
+                                <RadzenText TextStyle="TextStyle.Caption" 
+                                          Style="color: red;" 
+                                          Class="rz-mt-1">
+                                    Error: @step.ErrorMessage
+                                </RadzenText>
+                            }
+                        </RadzenColumn>
+                    </RadzenRow>
+                }
+            </RadzenStack>
+        </RadzenCard>
+    }
+
+    @if (processingResult != null && processingResult.ProcessingStatus == RfpProcessingStatus.Completed)
+    {
+        <!-- Results Section -->
+        <RadzenCard Class="rz-my-4">
+            <RadzenRow AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceBetween" Class="rz-mb-3">
+                <RadzenColumn Size="8">
+                    <RadzenText TextStyle="TextStyle.H5">
+                        <RadzenIcon Icon="quiz" Class="rz-me-2" />
+                        Questions & Answers (@processingResult.Questions.Count)
+                    </RadzenText>
+                    <RadzenText TextStyle="TextStyle.Caption">
+                        Document: @processingResult.FileName
+                    </RadzenText>
+                </RadzenColumn>
+                <RadzenColumn Size="4" Class="rz-text-align-end">
+                    <RadzenButton ButtonType="ButtonType.Button" 
+                                Icon="refresh" 
+                                Text="Process New Document" 
+                                Click="ResetProcessing" 
+                                ButtonStyle="ButtonStyle.Secondary"
+                                Size="ButtonSize.Medium" />
+                </RadzenColumn>
+            </RadzenRow>
+            
+            <RadzenDataGrid @ref="questionsGrid" 
+                          Data="@processingResult.Questions" 
+                          TItem="RfpQuestion"
+                          AllowFiltering="true"
+                          AllowSorting="true"
+                          AllowPaging="true"
+                          PageSize="10"
+                          PagerHorizontalAlign="HorizontalAlign.Left"
+                          ShowPagingSummary="true"
+                          Class="rz-mt-3">
+                <Columns>
+                    <RadzenDataGridColumn TItem="RfpQuestion" Property="Text" Title="Question" Width="40%">
+                        <Template Context="question">
+                            <RadzenText TextStyle="TextStyle.Body1" Class="rz-text-wrap">
+                                @question.Text
+                            </RadzenText>
+                        </Template>
+                    </RadzenDataGridColumn>
+                    
+                    <RadzenDataGridColumn TItem="RfpQuestion" Property="Answer" Title="Answer" Width="45%">
+                        <Template Context="question">
+                            <RadzenTextArea @bind-Value="question.Answer" 
+                                          Rows="4" 
+                                          Class="w-100"
+                                          @onchange="@(() => OnAnswerChanged(question))" />
+                            @if (question.IsAnswerEdited)
+                            {
+                                <RadzenText TextStyle="TextStyle.Caption" Style="color: orange;" Class="rz-mt-1">
+                                    <RadzenIcon Icon="edit" Class="rz-me-1" />
+                                    Answer has been modified
+                                </RadzenText>
+                            }
+                        </Template>
+                    </RadzenDataGridColumn>
+                    
+                    <RadzenDataGridColumn TItem="RfpQuestion" Property="Confidence" Title="Confidence" Width="10%">
+                        <Template Context="question">
+                            <RadzenBadge BadgeStyle="@GetConfidenceBadgeStyle(question.Confidence)" 
+                                       Text="@($"{question.Confidence:P0}")" />
+                        </Template>
+                    </RadzenDataGridColumn>
+                    
+                    <RadzenDataGridColumn TItem="RfpQuestion" Title="Actions" Width="5%" Sortable="false" Filterable="false">
+                        <Template Context="question">
+                            @if (question.IsAnswerEdited)
+                            {
+                                <RadzenButton ButtonType="ButtonType.Button"
+                                            Icon="undo"
+                                            ButtonStyle="ButtonStyle.Light"
+                                            Size="ButtonSize.ExtraSmall"
+                                            Title="Reset to original answer"
+                                            Click="@(() => ResetAnswer(question))" />
+                            }
+                        </Template>
+                    </RadzenDataGridColumn>
+                </Columns>
+            </RadzenDataGrid>
+        </RadzenCard>
+
+        <!-- Export Options -->
+        <RadzenCard Class="rz-my-4">
+            <RadzenText TextStyle="TextStyle.H6" Class="rz-mb-3">
+                <RadzenIcon Icon="download" Class="rz-me-2" />
+                Export Results
+            </RadzenText>
+            
+            <RadzenStack Orientation="Orientation.Horizontal" Gap="1rem">
+                <RadzenButton ButtonType="ButtonType.Button" 
+                            Icon="download" 
+                            Text="Export as JSON" 
+                            Click="ExportAsJson" 
+                            ButtonStyle="ButtonStyle.Secondary" />
+                <RadzenButton ButtonType="ButtonType.Button" 
+                            Icon="download" 
+                            Text="Export as CSV" 
+                            Click="ExportAsCsv" 
+                            ButtonStyle="ButtonStyle.Secondary" />
+            </RadzenStack>
+        </RadzenCard>
+    }
+
+    @if (processingResult != null && processingResult.ProcessingStatus == RfpProcessingStatus.Error)
+    {
+        <!-- Error Section -->
+        <RadzenCard Class="rz-my-4">
+            <RadzenText TextStyle="TextStyle.H5" Style="color: red;" Class="rz-mb-3">
+                <RadzenIcon Icon="error" Class="rz-me-2" />
+                Processing Error
+            </RadzenText>
+            
+            <RadzenAlert AlertStyle="AlertStyle.Danger" Variant="Variant.Flat">
+                <RadzenText TextStyle="TextStyle.Body1">
+                    @processingResult.ErrorMessage
+                </RadzenText>
+            </RadzenAlert>
+            <RadzenButton ButtonType="ButtonType.Button" 
+                        Icon="refresh" 
+                        Text="Try Again" 
+                        Click="ResetProcessing" 
+                        ButtonStyle="ButtonStyle.Primary"
+                        Class="rz-mt-3" />
+        </RadzenCard>
+    }
+</div>

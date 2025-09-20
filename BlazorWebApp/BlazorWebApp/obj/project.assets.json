@@ -6025,9 +6025,13 @@
   "projectFileDependencyGroups": {
     "net9.0": [
       "BlazorWebApp.Client >= 1.0.0",
+      "Blazored.LocalStorage >= 4.5.0",
       "Microsoft.AspNetCore.Components.WebAssembly.Server >= 9.0.9",
       "Microsoft.Extensions.AI.OpenAI >= 9.0.1-preview.1.24570.5",
-      "OpenAI >= 2.1.0"
+      "OpenAI >= 2.1.0",
+      "Radzen.Blazor >= 5.6.6",
+      "System.Text.Json >= 9.0.0",
+      "iText7 >= 8.0.5"
     ]
   },
   "packageFolders": {
@@ -6085,6 +6089,10 @@
       "net9.0": {
         "targetAlias": "net9.0",
         "dependencies": {
+          "Blazored.LocalStorage": {
+            "target": "Package",
+            "version": "[4.5.0, )"
+          },
           "Microsoft.AspNetCore.Components.WebAssembly.Server": {
             "target": "Package",
             "version": "[9.0.9, )"
@@ -6096,6 +6104,18 @@
           "OpenAI": {
             "target": "Package",
             "version": "[2.1.0, )"
+          },
+          "Radzen.Blazor": {
+            "target": "Package",
+            "version": "[5.6.6, )"
+          },
+          "System.Text.Json": {
+            "target": "Package",
+            "version": "[9.0.0, )"
+          },
+          "iText7": {
+            "target": "Package",
+            "version": "[8.0.5, )"
           }
         },
         "imports": [

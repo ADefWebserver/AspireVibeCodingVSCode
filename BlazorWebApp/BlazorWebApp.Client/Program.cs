@@ -28,6 +28,8 @@ class Program
         builder.Services.AddScoped<IPdfProcessingService, PdfProcessingService>();
         builder.Services.AddScoped<IEmbeddingService, ServerEmbeddingService>();
         builder.Services.AddScoped<IKnowledgebaseStorageService, KnowledgebaseStorageService>();
+        builder.Services.AddScoped<IQuestionDetectionService, QuestionDetectionService>();
+        builder.Services.AddScoped<IRagService, RagService>();
 
         await builder.Build().RunAsync();
     }

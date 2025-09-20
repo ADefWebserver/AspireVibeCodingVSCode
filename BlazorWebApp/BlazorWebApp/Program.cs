@@ -1,7 +1,9 @@
 using BlazorWebApp.Client.Pages;
 using BlazorWebApp.Components;
 using BlazorWebApp.Client.Models;
+using BlazorWebApp.Client.Services;
 using Radzen;
+using Blazored.LocalStorage;
 
 namespace BlazorWebApp;
 
@@ -25,6 +27,19 @@ public class Program
         // Add Radzen components and services
         builder.Services.AddRadzenComponents();
         builder.Services.AddScoped<NotificationService>();
+
+        // Add Blazored LocalStorage
+        builder.Services.AddBlazoredLocalStorage();
+
+        // Add HttpClient for API calls
+        builder.Services.AddScoped<HttpClient>();
+
+        // Register client services for server-side rendering
+        builder.Services.AddScoped<IPdfProcessingService, PdfProcessingService>();
+        builder.Services.AddScoped<IEmbeddingService, ServerEmbeddingService>();
+        builder.Services.AddScoped<IKnowledgebaseStorageService, KnowledgebaseStorageService>();
+        builder.Services.AddScoped<IQuestionDetectionService, QuestionDetectionService>();
+        builder.Services.AddScoped<IRagService, RagService>();
 
         var app = builder.Build();
 
