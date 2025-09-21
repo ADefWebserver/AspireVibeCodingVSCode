@@ -1,0 +1,24 @@
+Test cases for text cleaning:
+
+Original text with problematic characters:
+"What is your companyï¿½s experience with cloud solutions?"
+"Describe the methodologyï¿½ you will use?"
+"Please provideï¿½ details about your approach"
+
+Expected cleaned text:
+"What is your companys experience with cloud solutions?"
+"Describe the methodology you will use?"
+"Please provide details about your approach"
+
+The cleaning should remove:
+- ï¿½ (Unicode replacement character)
+- \uFFFD (Unicode replacement character)
+- Invalid encoding artifacts
+- Non-printable characters
+
+While preserving:
+- Letters (all languages)
+- Numbers
+- Punctuation
+- Symbols
+- Whitespace

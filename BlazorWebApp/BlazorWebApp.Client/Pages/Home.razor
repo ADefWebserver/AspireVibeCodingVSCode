@@ -152,7 +152,7 @@
                           ShowPagingSummary="true"
                           Class="rz-mt-3">
                 <Columns>
-                    <RadzenDataGridColumn TItem="RfpQuestion" Property="Text" Title="Question" Width="40%">
+                    <RadzenDataGridColumn TItem="RfpQuestion" Property="Text" Title="Question" Width="50%">
                         <Template Context="question">
                             <RadzenText TextStyle="TextStyle.Body1" Class="rz-text-wrap">
                                 @question.Text
@@ -160,7 +160,7 @@
                         </Template>
                     </RadzenDataGridColumn>
                     
-                    <RadzenDataGridColumn TItem="RfpQuestion" Property="Answer" Title="Answer" Width="45%">
+                    <RadzenDataGridColumn TItem="RfpQuestion" Property="Answer" Title="Answer" Width="50%">
                         <Template Context="question">
                             <RadzenTextArea @bind-Value="question.Answer" 
                                           Rows="4" 
@@ -173,13 +173,6 @@
                                     Answer has been modified
                                 </RadzenText>
                             }
-                        </Template>
-                    </RadzenDataGridColumn>
-                    
-                    <RadzenDataGridColumn TItem="RfpQuestion" Property="Confidence" Title="%" Width="15%">
-                        <Template Context="question">
-                            <RadzenBadge BadgeStyle="@GetConfidenceBadgeStyle(question.Confidence)" 
-                                       Text="@($"{question.Confidence:P0}")" />
                         </Template>
                     </RadzenDataGridColumn>
                 </Columns>

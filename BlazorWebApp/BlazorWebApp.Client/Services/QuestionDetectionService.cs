@@ -39,6 +39,7 @@ namespace BlazorWebApp.Client.Services
                     return questions;
 
                 // Clean up the text
+                text = CleanTextFromInvalidCharacters(text);
                 text = Regex.Replace(text, @"\s+", " ").Trim();
                 
                 // Split into sentences
@@ -51,7 +52,11 @@ namespace BlazorWebApp.Client.Services
                 {
                     if (IsQuestion(sentence))
                     {
-                        questions.Add(sentence);
+                        var cleanedQuestion = CleanTextFromInvalidCharacters(sentence);
+                        if (!string.IsNullOrWhiteSpace(cleanedQuestion))
+                        {
+                            questions.Add(cleanedQuestion);
+                        }
                     }
                 }
 
@@ -123,7 +128,11 @@ namespace BlazorWebApp.Client.Services
                     var question = ConvertRequirementToQuestion(requirement);
                     if (!string.IsNullOrEmpty(question))
                     {
-                        implicitQuestions.Add(question);
+                        var cleanedQuestion = CleanTextFromInvalidCharacters(question);
+                        if (!string.IsNullOrWhiteSpace(cleanedQuestion))
+                        {
+                            implicitQuestions.Add(cleanedQuestion);
+                        }
                     }
                 }
             }
@@ -140,7 +149,11 @@ namespace BlazorWebApp.Client.Services
                     var question = ConvertRequirementToQuestion(requirement);
                     if (!string.IsNullOrEmpty(question))
                     {
-                        implicitQuestions.Add(question);
+                        var cleanedQuestion = CleanTextFromInvalidCharacters(question);
+                        if (!string.IsNullOrWhiteSpace(cleanedQuestion))
+                        {
+                            implicitQuestions.Add(cleanedQuestion);
+                        }
                     }
                 }
             }
@@ -150,7 +163,7 @@ namespace BlazorWebApp.Client.Services
 
         private string ConvertRequirementToQuestion(string requirement)
         {
-            var cleaned = requirement.Trim();
+            var cleaned = CleanTextFromInvalidCharacters(requirement.Trim());
             
             // Remove leading numbers or bullets
             cleaned = Regex.Replace(cleaned, @"^\d+\.?\s*", "").Trim();
@@ -197,6 +210,32 @@ namespace BlazorWebApp.Client.Services
                 // For other requirements, create a generic question
                 return "How do you address this requirement: " + cleaned + "?";
             }
+        }
+
+        private string CleanTextFromInvalidCharacters(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+                return text;
+
+            // Remove common encoding artifacts and invalid characters
+            text = text.Replace("ï¿½", ""); // Unicode replacement character
+            text = text.Replace("\uFFFD", ""); // Unicode replacement character
+            text = text.Replace("\u00EF\u00BF\u00BD", ""); // UTF-8 replacement character sequence
+            
+            // Fix common smart quote and dash encoding issues
+            text = text.Replace("\u2019", "'"); // Right single quotation mark
+            text = text.Replace("\u201C", "\""); // Left double quotation mark
+            text = text.Replace("\u201D", "\""); // Right double quotation mark
+            text = text.Replace("\u2013", "-"); // En dash
+            text = text.Replace("\u2014", "-"); // Em dash
+            
+            // Remove other non-printable characters except letters, numbers, punctuation, symbols, and whitespace
+            text = Regex.Replace(text, @"[^\p{L}\p{N}\p{P}\p{S}\s]", "");
+            
+            // Clean up multiple spaces that might result from character removal
+            text = Regex.Replace(text, @"\s+", " ");
+            
+            return text.Trim();
         }
     }
 }

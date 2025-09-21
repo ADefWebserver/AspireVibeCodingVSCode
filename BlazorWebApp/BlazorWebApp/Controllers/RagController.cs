@@ -56,8 +56,7 @@ Guidelines:
 3. If the context doesn't contain enough information, clearly state what additional information would be needed
 4. Structure your answer clearly with bullet points or numbered lists when appropriate
 5. Be specific and actionable in your recommendations
-6. If you're making assumptions, clearly state them
-7. Provide confidence levels based on how well the context supports your answer";
+6. Focus on providing complete, well-supported answers based on the available information";
 
                 var userMessage = $@"Context from knowledgebase:
 {contextBuilder}

@@ -1146,10 +1146,10 @@ C:\Users\webma\Source\Repos\AspireVibeCodingVSCode\BlazorWebApp\BlazorWebApp.Cli
 C:\Users\webma\Source\Repos\AspireVibeCodingVSCode\BlazorWebApp\BlazorWebApp.Client\obj\Debug\net9.0\compressed\zbevaxhtgq-{0}-26lzoruyax-26lzoruyax.gz
 C:\Users\webma\Source\Repos\AspireVibeCodingVSCode\BlazorWebApp\BlazorWebApp.Client\obj\Debug\net9.0\compressed\yryjvqhtwj-{0}-aaww7bz53t-aaww7bz53t.gz
 C:\Users\webma\Source\Repos\AspireVibeCodingVSCode\BlazorWebApp\BlazorWebApp.Client\obj\Debug\net9.0\compressed\n14aervrzz-{0}-vm5dnnhuwx-vm5dnnhuwx.gz
-C:\Users\webma\Source\Repos\AspireVibeCodingVSCode\BlazorWebApp\BlazorWebApp.Client\bin\Debug\net9.0\wwwroot\_framework\BlazorWebApp.Client.vzca0zjree.wasm
-C:\Users\webma\Source\Repos\AspireVibeCodingVSCode\BlazorWebApp\BlazorWebApp.Client\bin\Debug\net9.0\wwwroot\_framework\BlazorWebApp.Client.ymjyn7vgg0.pdb
-C:\Users\webma\Source\Repos\AspireVibeCodingVSCode\BlazorWebApp\BlazorWebApp.Client\bin\Debug\net9.0\wwwroot\_framework\BlazorWebApp.Client.vzca0zjree.wasm.gz
-C:\Users\webma\Source\Repos\AspireVibeCodingVSCode\BlazorWebApp\BlazorWebApp.Client\bin\Debug\net9.0\wwwroot\_framework\BlazorWebApp.Client.ymjyn7vgg0.pdb.gz
-C:\Users\webma\Source\Repos\AspireVibeCodingVSCode\BlazorWebApp\BlazorWebApp.Client\obj\Debug\net9.0\compressed\g3yv09h5o9-{0}-vzca0zjree-vzca0zjree.gz
-C:\Users\webma\Source\Repos\AspireVibeCodingVSCode\BlazorWebApp\BlazorWebApp.Client\obj\Debug\net9.0\compressed\p7asu6wb1b-{0}-ymjyn7vgg0-ymjyn7vgg0.gz
-C:\Users\webma\Source\Repos\AspireVibeCodingVSCode\BlazorWebApp\BlazorWebApp.Client\obj\Debug\net9.0\compressed\r94ehykway-{0}-lp5lr7eot5-lp5lr7eot5.gz
+C:\Users\webma\Source\Repos\AspireVibeCodingVSCode\BlazorWebApp\BlazorWebApp.Client\bin\Debug\net9.0\wwwroot\_framework\BlazorWebApp.Client.fvyf9czp7v.wasm
+C:\Users\webma\Source\Repos\AspireVibeCodingVSCode\BlazorWebApp\BlazorWebApp.Client\bin\Debug\net9.0\wwwroot\_framework\BlazorWebApp.Client.jt9mgw9djd.pdb
+C:\Users\webma\Source\Repos\AspireVibeCodingVSCode\BlazorWebApp\BlazorWebApp.Client\bin\Debug\net9.0\wwwroot\_framework\BlazorWebApp.Client.fvyf9czp7v.wasm.gz
+C:\Users\webma\Source\Repos\AspireVibeCodingVSCode\BlazorWebApp\BlazorWebApp.Client\bin\Debug\net9.0\wwwroot\_framework\BlazorWebApp.Client.jt9mgw9djd.pdb.gz
+C:\Users\webma\Source\Repos\AspireVibeCodingVSCode\BlazorWebApp\BlazorWebApp.Client\obj\Debug\net9.0\compressed\g3yv09h5o9-{0}-fvyf9czp7v-fvyf9czp7v.gz
+C:\Users\webma\Source\Repos\AspireVibeCodingVSCode\BlazorWebApp\BlazorWebApp.Client\obj\Debug\net9.0\compressed\p7asu6wb1b-{0}-jt9mgw9djd-jt9mgw9djd.gz
+C:\Users\webma\Source\Repos\AspireVibeCodingVSCode\BlazorWebApp\BlazorWebApp.Client\obj\Debug\net9.0\compressed\r94ehykway-{0}-wc2hngtzm6-wc2hngtzm6.gz

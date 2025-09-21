@@ -189,7 +189,12 @@ Write a compelling opening summary paragraph (2-3 sentences) that:
 2. Briefly highlights our key capabilities relevant to the requirements
 3. Sets a confident, professional tone for the detailed responses that follow
 
-Keep it professional, concise, and engaging. Do not repeat the specific questions or answers verbatim.";
+Requirements:
+- Keep it professional, concise, and engaging
+- Do not repeat the specific questions or answers verbatim
+- Do not include any assumptions sections or confidence level discussions
+- Format as normal narrative paragraphs with left alignment
+- Focus only on summarizing our capabilities and approach";
         }
 
         private string GenerateFallbackSummary(RfpResponseGenerationRequest request)
@@ -249,7 +254,7 @@ Keep it professional, concise, and engaging. Do not repeat the specific question
                     
                     var summaryParagraph = document.InsertParagraph(summary);
                     summaryParagraph.FontSize(11);
-                    summaryParagraph.Alignment = Alignment.both;
+                    summaryParagraph.Alignment = Alignment.left;
                     
                     document.InsertParagraph(); // Empty line
                 }
@@ -275,16 +280,7 @@ Keep it professional, concise, and engaging. Do not repeat the specific question
                     // Answer
                     var answerParagraph = document.InsertParagraph(question.Answer);
                     answerParagraph.FontSize(11);
-                    answerParagraph.Alignment = Alignment.both;
-                    
-                    // Add confidence indicator if low confidence
-                    if (question.Confidence < 0.7)
-                    {
-                        var confidenceNote = document.InsertParagraph($"(Confidence: {question.Confidence:P0} - Please review)");
-                        confidenceNote.FontSize(9);
-                        confidenceNote.Italic();
-                        confidenceNote.Color(Xceed.Drawing.Color.Orange);
-                    }
+                    answerParagraph.Alignment = Alignment.left;
                     
                     // Add space between questions
                     if (i < request.Questions.Count - 1)
