@@ -1,4 +1,5 @@
 ### See Blog Post:
 ### Vibe Coding Using Visual Studio Code and Blazor: Creating an RFP Responder
-<img width="782" height="394" alt="image" src="https://github.com/user-attachments/assets/6623605a-27f8-4b43-841d-943acccf11d8" />
+<img width="1036" height="577" alt="image" src="https://github.com/user-attachments/assets/b7feffc6-ca0a-4931-9b45-18c02e062f5e" />
+
 https://blazorhelpwebsite.com/ViewBlogPost/20078
