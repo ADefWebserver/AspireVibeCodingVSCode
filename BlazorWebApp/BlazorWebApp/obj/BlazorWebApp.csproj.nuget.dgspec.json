@@ -55,6 +55,10 @@
               "target": "Package",
               "version": "[4.5.0, )"
             },
+            "DocX": {
+              "target": "Package",
+              "version": "[4.0.25105.5786, )"
+            },
             "Microsoft.AspNetCore.Components.WebAssembly": {
               "target": "Package",
               "version": "[9.0.9, )"
@@ -169,6 +173,10 @@
             "Blazored.LocalStorage": {
               "target": "Package",
               "version": "[4.5.0, )"
+            },
+            "DocX": {
+              "target": "Package",
+              "version": "[4.0.25105.5786, )"
             },
             "Microsoft.AspNetCore.Components.WebAssembly.Server": {
               "target": "Package",

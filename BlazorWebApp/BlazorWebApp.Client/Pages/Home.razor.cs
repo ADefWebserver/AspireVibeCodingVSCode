@@ -17,11 +17,13 @@ namespace BlazorWebApp.Client.Pages
         [Inject] private IEmbeddingService EmbeddingService { get; set; } = default!;
         [Inject] private IRagService RagService { get; set; } = default!;
         [Inject] private IKnowledgebaseStorageService KnowledgebaseStorageService { get; set; } = default!;
+        [Inject] private IRfpResponseService RfpResponseService { get; set; } = default!;
         [Inject] private NotificationService NotificationService { get; set; } = default!;
         [Inject] private IJSRuntime JSRuntime { get; set; } = default!;
         private IBrowserFile? selectedFile;
         private RfpProcessingResult? processingResult;
         private bool isProcessing = false;
+        private bool isCreatingRfpResponse = false;
         private string currentStatusMessage = "";
         private int currentProgress = 0;
         private RadzenDataGrid<RfpQuestion>? questionsGrid;
@@ -323,6 +325,88 @@ namespace BlazorWebApp.Client.Pages
             }
 
             return value;
+        }
+
+        private async Task CreateRfpResponse()
+        {
+            if (processingResult?.Questions == null || !processingResult.Questions.Any())
+            {
+                NotificationService.Notify(new NotificationMessage
+                {
+                    Severity = NotificationSeverity.Warning,
+                    Summary = "No Questions Available",
+                    Detail = "Please process an RFP document first to generate questions and answers."
+                });
+                return;
+            }
+
+            // Check if any questions are unanswered
+            var unansweredQuestions = processingResult.Questions.Where(q => string.IsNullOrWhiteSpace(q.Answer)).ToList();
+            if (unansweredQuestions.Any())
+            {
+                NotificationService.Notify(new NotificationMessage
+                {
+                    Severity = NotificationSeverity.Warning,
+                    Summary = "Incomplete Answers",
+                    Detail = $"Please provide answers for all {unansweredQuestions.Count} unanswered questions before creating the RFP response."
+                });
+                return;
+            }
+
+            isCreatingRfpResponse = true;
+            StateHasChanged();
+
+            try
+            {
+                var request = new RfpResponseGenerationRequest
+                {
+                    Questions = processingResult.Questions,
+                    DocumentTitle = $"RFP Response - {processingResult.FileName}",
+                    CompanyName = "Your Company", // You could make this configurable
+                    GenerateSummary = true
+                };
+
+                var result = await RfpResponseService.GenerateRfpResponseAsync(request);
+
+                if (result.Success)
+                {
+                    // Download the file using enhanced JavaScript function with File System Access API
+                    var downloadResult = await JSRuntime.InvokeAsync<object>("downloadRfpResponse", 
+                        result.FileName, 
+                        result.FileData, 
+                        true); // Use File System Access API if available
+
+                    NotificationService.Notify(new NotificationMessage
+                    {
+                        Severity = NotificationSeverity.Success,
+                        Summary = "RFP Response Generated",
+                        Detail = $"Successfully created {result.FileName} with {result.QuestionCount} questions and answers."
+                    });
+                }
+                else
+                {
+                    NotificationService.Notify(new NotificationMessage
+                    {
+                        Severity = NotificationSeverity.Error,
+                        Summary = "Generation Failed",
+                        Detail = result.ErrorMessage
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                NotificationService.Notify(new NotificationMessage
+                {
+                    Severity = NotificationSeverity.Error,
+                    Summary = "Unexpected Error",
+                    Detail = $"An error occurred while creating the RFP response: {ex.Message}"
+                });
+            }
+            finally
+            {
+                isCreatingRfpResponse = false;
+                StateHasChanged();
+            }
         }
     }
 }

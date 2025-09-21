@@ -22,5 +22,6 @@
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <PkgMicrosoft_NET_Sdk_WebAssembly_Pack Condition=" '$(PkgMicrosoft_NET_Sdk_WebAssembly_Pack)' == '' ">C:\Users\webma\.nuget\packages\microsoft.net.sdk.webassembly.pack\9.0.9</PkgMicrosoft_NET_Sdk_WebAssembly_Pack>
     <PkgMicrosoft_NET_ILLink_Tasks Condition=" '$(PkgMicrosoft_NET_ILLink_Tasks)' == '' ">C:\Users\webma\.nuget\packages\microsoft.net.illink.tasks\9.0.9</PkgMicrosoft_NET_ILLink_Tasks>
+    <PkgDocX Condition=" '$(PkgDocX)' == '' ">C:\Users\webma\.nuget\packages\docx\4.0.25105.5786</PkgDocX>
   </PropertyGroup>
 </Project>

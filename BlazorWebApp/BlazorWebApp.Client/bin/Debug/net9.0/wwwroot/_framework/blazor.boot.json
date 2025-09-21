@@ -1,9 +1,12 @@
 {
   "mainAssemblyName": "BlazorWebApp.Client",
   "resources": {
-    "hash": "sha256-bgKXvU31B/YkBlRf1irvm9cQeOGHR28QqtLbldeoGJs=",
+    "hash": "sha256-yfT2U85NYqvmELKvSk9TDMDtZpqAyInmcXLVtDXBk1o=",
     "fingerprinting": {
       "Blazored.LocalStorage.12n6dz54qr.wasm": "Blazored.LocalStorage.wasm",
+      "Xceed.Document.NET.pdhool7v6u.wasm": "Xceed.Document.NET.wasm",
+      "Xceed.Drawing.NET.9tv0kysucm.wasm": "Xceed.Drawing.NET.wasm",
+      "Xceed.Words.NET.zrbvs1x21a.wasm": "Xceed.Words.NET.wasm",
       "itext.barcodes.kih837tjyp.wasm": "itext.barcodes.wasm",
       "itext.bouncy-castle-connector.2qoubl6aye.wasm": "itext.bouncy-castle-connector.wasm",
       "itext.forms.xrsijn67t7.wasm": "itext.forms.wasm",
@@ -42,6 +45,8 @@
       "Microsoft.JSInterop.WebAssembly.v6rnols3v9.wasm": "Microsoft.JSInterop.WebAssembly.wasm",
       "Newtonsoft.Json.ryat7hvx56.wasm": "Newtonsoft.Json.wasm",
       "Radzen.Blazor.9idlk0bulp.wasm": "Radzen.Blazor.wasm",
+      "SkiaSharp.26lzoruyax.wasm": "SkiaSharp.wasm",
+      "System.IO.Packaging.aaww7bz53t.wasm": "System.IO.Packaging.wasm",
       "System.Linq.Dynamic.Core.v56k5wbbs8.wasm": "System.Linq.Dynamic.Core.wasm",
       "Microsoft.CSharp.j3zkownjjr.wasm": "Microsoft.CSharp.wasm",
       "Microsoft.VisualBasic.Core.qljjwgjnrn.wasm": "Microsoft.VisualBasic.Core.wasm",
@@ -219,8 +224,8 @@
       "icudt_CJK.tjcz0u77k5.dat": "icudt_CJK.dat",
       "icudt_EFIGS.tptq2av103.dat": "icudt_EFIGS.dat",
       "icudt_no_CJK.lfu7j35m59.dat": "icudt_no_CJK.dat",
-      "BlazorWebApp.Client.ipp1nzkip3.wasm": "BlazorWebApp.Client.wasm",
-      "BlazorWebApp.Client.95fkc13cjp.pdb": "BlazorWebApp.Client.pdb"
+      "BlazorWebApp.Client.zw2sy9pv4h.wasm": "BlazorWebApp.Client.wasm",
+      "BlazorWebApp.Client.abds743zj1.pdb": "BlazorWebApp.Client.pdb"
     },
     "jsModuleNative": {
       "dotnet.native.9ih887ebfz.js": "sha256-oS7IRiQoVt9ThQ7Y2UM3XoeY0JqPD02cg9IvRdufn2w="
@@ -242,6 +247,9 @@
     },
     "assembly": {
       "Blazored.LocalStorage.12n6dz54qr.wasm": "sha256-OaMAAd5n7ORfyur5e3QIyEVKJ76MKIvwbg7/icnnYcU=",
+      "Xceed.Document.NET.pdhool7v6u.wasm": "sha256-/Smpw96rS+1so1kI47EIFPmKpUcnjr+Qck65Dh/Gr/s=",
+      "Xceed.Drawing.NET.9tv0kysucm.wasm": "sha256-88Lf3XOv/BWuoJyooStOhB+5YfD7R3pWmi3dEStr2aY=",
+      "Xceed.Words.NET.zrbvs1x21a.wasm": "sha256-oeKaKCh37NfIgecwYK5oj3DoX0jdDbcXRT1BWDNhb/Q=",
       "itext.barcodes.kih837tjyp.wasm": "sha256-rPl2fN+W0EAvIPsWJRMeH+4LuwlAW1gkyIhZuvHtpwU=",
       "itext.bouncy-castle-connector.2qoubl6aye.wasm": "sha256-qheC9R4uztd0EyCAvO507fBeQK+Y6o9YPWoA2xCg1RA=",
       "itext.forms.xrsijn67t7.wasm": "sha256-LTEAV3hEkmw31TUh7nZaR6K71jVDKOdxzkCsi3Ec1v8=",
@@ -280,6 +288,8 @@
       "Microsoft.JSInterop.WebAssembly.v6rnols3v9.wasm": "sha256-Z/XKvzIKcHVmnvT7y1f4/N5zSNqzNAfjsLaBDIyCkYs=",
       "Newtonsoft.Json.ryat7hvx56.wasm": "sha256-PaicHOw1U7HF05kEvZI0Rgg1nwdA8hrzbzdkw1qgUuU=",
       "Radzen.Blazor.9idlk0bulp.wasm": "sha256-ofsJTm0WBOI04OB+zVFWxDBimafp+EMrD+swFNh2hKw=",
+      "SkiaSharp.26lzoruyax.wasm": "sha256-FuaZRL1BQxWKGMtmMq8twUVP906lz1iAN+r+CSxuA/k=",
+      "System.IO.Packaging.aaww7bz53t.wasm": "sha256-jrFCv372wDbSGUzcsq+W4kV76FTsxRhdrAiBLd0ID7U=",
       "System.Linq.Dynamic.Core.v56k5wbbs8.wasm": "sha256-zY4O55eQ9gC1F0jl4MFsfpX6oCP3eabUwmK1PIrgx3Q=",
       "Microsoft.CSharp.j3zkownjjr.wasm": "sha256-r7YS8Hp01zUR3LoH5JsS7IrucOta+FnV199bCLii7Pk=",
       "Microsoft.VisualBasic.Core.qljjwgjnrn.wasm": "sha256-/jlp74GLHWhrCfjAmWlVClO68H3wIk+kVx9A/gjByls=",
@@ -448,10 +458,10 @@
       "WindowsBase.vy2l5u79y6.wasm": "sha256-ufB9Mo5joMyUs3DzXWWBFFIZNEVrt6h9N5stYB6Oln4=",
       "mscorlib.xd6mv31d55.wasm": "sha256-1YSLR2eZt3ceALFV//vZUF2AloxVil3VlrW1zZYPSEI=",
       "netstandard.kaml52uspo.wasm": "sha256-HLEwBpLfzKw2/zGSVzHzFJxznCkt/WIjahrziiMrOpA=",
-      "BlazorWebApp.Client.ipp1nzkip3.wasm": "sha256-Ztu1ivsKdooQH4udqlw7JPD1in8fBgCwiW+idbhrNrA="
+      "BlazorWebApp.Client.zw2sy9pv4h.wasm": "sha256-w3N1zDLI1phdZEVHNITGSNn9soQueoBi3hUU2XqlTcc="
     },
     "pdb": {
-      "BlazorWebApp.Client.95fkc13cjp.pdb": "sha256-rek7DVvZFAw6r02EnjaWczprHKVonVLiFdy7g690KzI="
+      "BlazorWebApp.Client.abds743zj1.pdb": "sha256-muYm4uF5OJzS9RIDGFBIWvpbVVVl38c3un3k/qcn/Y4="
     }
   },
   "cacheBootResources": true,

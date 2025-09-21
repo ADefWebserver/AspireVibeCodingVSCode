@@ -2,6 +2,7 @@ using BlazorWebApp.Client.Pages;
 using BlazorWebApp.Components;
 using BlazorWebApp.Client.Models;
 using BlazorWebApp.Client.Services;
+using BlazorWebApp.Services;
 using Radzen;
 using Blazored.LocalStorage;
 
@@ -32,6 +33,7 @@ public class Program
         builder.Services.AddBlazoredLocalStorage();
 
         // Add HttpClient for API calls
+        builder.Services.AddHttpClient();
         builder.Services.AddScoped<HttpClient>();
 
         // Register client services for server-side rendering
@@ -40,6 +42,10 @@ public class Program
         builder.Services.AddScoped<IKnowledgebaseStorageService, KnowledgebaseStorageService>();
         builder.Services.AddScoped<IQuestionDetectionService, QuestionDetectionService>();
         builder.Services.AddScoped<IRagService, RagService>();
+        builder.Services.AddScoped<IRfpResponseService, RfpResponseService>();
+
+        // Register RFP document service
+        builder.Services.AddScoped<IRfpDocumentService, RfpDocumentService>();
 
         var app = builder.Build();
 

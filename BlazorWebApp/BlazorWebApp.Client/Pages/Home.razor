@@ -207,7 +207,32 @@
                 Export Results
             </RadzenText>
             
-            <RadzenStack Orientation="Orientation.Horizontal" Gap="1rem">
+            @{
+                var unansweredCount = processingResult?.Questions?.Count(q => string.IsNullOrWhiteSpace(q.Answer)) ?? 0;
+                var hasUnansweredQuestions = unansweredCount > 0;
+            }
+            
+            @if (hasUnansweredQuestions)
+            {
+                <RadzenAlert AlertStyle="AlertStyle.Warning" Variant="Variant.Flat" Class="rz-mb-3">
+                    <RadzenText TextStyle="TextStyle.Body2">
+                        <RadzenIcon Icon="warning" Class="rz-me-1" />
+                        @unansweredCount question(s) are missing answers. Please provide answers before generating the RFP response.
+                    </RadzenText>
+                </RadzenAlert>
+            }
+            
+            <RadzenStack Orientation="Orientation.Horizontal" Gap="1rem" Wrap="FlexWrap.Wrap">
+                <RadzenButton ButtonType="ButtonType.Button" 
+                            Icon="description" 
+                            Text="Create RFP Response" 
+                            Click="CreateRfpResponse" 
+                            ButtonStyle="ButtonStyle.Primary"
+                            Size="ButtonSize.Large"
+                            Disabled="@(isCreatingRfpResponse || hasUnansweredQuestions)"
+                            BusyText="Generating..."
+                            IsBusy="@isCreatingRfpResponse"
+                            Title="@(hasUnansweredQuestions ? "Please answer all questions first" : "Generate a Word document with AI summary and formatted Q&A")" />
                 <RadzenButton ButtonType="ButtonType.Button" 
                             Icon="download" 
                             Text="Export as JSON" 

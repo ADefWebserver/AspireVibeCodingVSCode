@@ -18,5 +18,6 @@
   </ImportGroup>
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <PkgMicrosoft_AspNetCore_Components_WebAssembly_Server Condition=" '$(PkgMicrosoft_AspNetCore_Components_WebAssembly_Server)' == '' ">C:\Users\webma\.nuget\packages\microsoft.aspnetcore.components.webassembly.server\9.0.9</PkgMicrosoft_AspNetCore_Components_WebAssembly_Server>
+    <PkgDocX Condition=" '$(PkgDocX)' == '' ">C:\Users\webma\.nuget\packages\docx\4.0.25105.5786</PkgDocX>
   </PropertyGroup>
 </Project>

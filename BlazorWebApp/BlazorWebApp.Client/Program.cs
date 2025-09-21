@@ -30,6 +30,7 @@ class Program
         builder.Services.AddScoped<IKnowledgebaseStorageService, KnowledgebaseStorageService>();
         builder.Services.AddScoped<IQuestionDetectionService, QuestionDetectionService>();
         builder.Services.AddScoped<IRagService, RagService>();
+        builder.Services.AddScoped<IRfpResponseService, RfpResponseService>();
 
         await builder.Build().RunAsync();
     }

@@ -109,4 +109,79 @@ namespace BlazorWebApp.Client.Models
         public double Confidence { get; set; }
         public List<string> SourceDocuments { get; set; } = new();
     }
+
+    public class RfpResponseGenerationRequest
+    {
+        [JsonPropertyName("questions")]
+        public List<RfpQuestion> Questions { get; set; } = new();
+
+        [JsonPropertyName("documentTitle")]
+        public string DocumentTitle { get; set; } = string.Empty;
+
+        [JsonPropertyName("companyName")]
+        public string CompanyName { get; set; } = string.Empty;
+
+        [JsonPropertyName("generateSummary")]
+        public bool GenerateSummary { get; set; } = true;
+    }
+
+    public class RfpResponseGenerationResult
+    {
+        [JsonPropertyName("success")]
+        public bool Success { get; set; }
+
+        [JsonPropertyName("fileName")]
+        public string FileName { get; set; } = string.Empty;
+
+        [JsonPropertyName("fileSize")]
+        public long FileSize { get; set; }
+
+        [JsonPropertyName("generatedSummary")]
+        public string GeneratedSummary { get; set; } = string.Empty;
+
+        [JsonPropertyName("questionCount")]
+        public int QuestionCount { get; set; }
+
+        [JsonPropertyName("errorMessage")]
+        public string ErrorMessage { get; set; } = string.Empty;
+
+        [JsonPropertyName("fileData")]
+        public byte[] FileData { get; set; } = Array.Empty<byte>();
+    }
+
+    public class SummaryGenerationRequest
+    {
+        [JsonPropertyName("questions")]
+        public List<QuestionSummaryInfo> Questions { get; set; } = new();
+
+        [JsonPropertyName("documentTitle")]
+        public string DocumentTitle { get; set; } = string.Empty;
+
+        [JsonPropertyName("companyName")]
+        public string CompanyName { get; set; } = string.Empty;
+    }
+
+    public class QuestionSummaryInfo
+    {
+        [JsonPropertyName("question")]
+        public string Question { get; set; } = string.Empty;
+
+        [JsonPropertyName("answer")]
+        public string Answer { get; set; } = string.Empty;
+
+        [JsonPropertyName("confidence")]
+        public double Confidence { get; set; }
+    }
+
+    public class SummaryGenerationResponse
+    {
+        [JsonPropertyName("summary")]
+        public string Summary { get; set; } = string.Empty;
+
+        [JsonPropertyName("success")]
+        public bool Success { get; set; }
+
+        [JsonPropertyName("errorMessage")]
+        public string ErrorMessage { get; set; } = string.Empty;
+    }
 }
