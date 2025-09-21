@@ -176,24 +176,10 @@
                         </Template>
                     </RadzenDataGridColumn>
                     
-                    <RadzenDataGridColumn TItem="RfpQuestion" Property="Confidence" Title="Confidence" Width="10%">
+                    <RadzenDataGridColumn TItem="RfpQuestion" Property="Confidence" Title="%" Width="15%">
                         <Template Context="question">
                             <RadzenBadge BadgeStyle="@GetConfidenceBadgeStyle(question.Confidence)" 
                                        Text="@($"{question.Confidence:P0}")" />
-                        </Template>
-                    </RadzenDataGridColumn>
-                    
-                    <RadzenDataGridColumn TItem="RfpQuestion" Title="Actions" Width="5%" Sortable="false" Filterable="false">
-                        <Template Context="question">
-                            @if (question.IsAnswerEdited)
-                            {
-                                <RadzenButton ButtonType="ButtonType.Button"
-                                            Icon="undo"
-                                            ButtonStyle="ButtonStyle.Light"
-                                            Size="ButtonSize.ExtraSmall"
-                                            Title="Reset to original answer"
-                                            Click="@(() => ResetAnswer(question))" />
-                            }
                         </Template>
                     </RadzenDataGridColumn>
                 </Columns>
